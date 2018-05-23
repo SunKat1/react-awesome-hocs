@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import { debounce, omit } from "lodash";
@@ -10,7 +10,7 @@ const makeDebounced = WrappedComponent => {
 
       this.state = {
         value: null,
-        debouncedProps: omit(props, ['onChange', 'value']),
+        debouncedProps: omit(props, ["onChange", "value"])
       };
 
       this._debounceChange = this._debounceChange.bind(this);
@@ -19,11 +19,11 @@ const makeDebounced = WrappedComponent => {
     static propTypes = {
       delay: PropTypes.number,
       onChange: PropTypes.func.isRequired,
-      value: PropTypes.any.isRequired,
+      value: PropTypes.any.isRequired
     };
 
     static defaultProps = {
-      delay: 1500,
+      delay: 1500
     };
 
     static getDerivedStateFromProps = (
@@ -31,33 +31,31 @@ const makeDebounced = WrappedComponent => {
       prevState
     ) => ({
       value,
-      debouncedProps: omit(props, ['onChange', 'value'])
+      debouncedProps: omit(props, ["onChange", "value"])
     });
 
     _debounceChange(e, { value }) {
-      console.log('up', e, value, this.state)
-      this.setState({ value }, () => this.sendExternalChange(e, value))
+      console.log("up", e, value, this.state);
+      this.setState({ value }, () => this.sendExternalChange(e, value));
     }
 
     render() {
       const {
-        state: {
-          value,
-          debouncedProps,
-        },
+        state: { value, debouncedProps }
       } = this;
       return (
-        <WrappedComponent {...{
-          ...debouncedProps,
-          value,
-          onChange: this._debounceChange,
-        }}
+        <WrappedComponent
+          {...{
+            ...debouncedProps,
+            value,
+            onChange: this._debounceChange
+          }}
         />
       );
     }
-  };
+  }
 
-  return Wrapper
-}
+  return Wrapper;
+};
 
 export default makeDebounced;
