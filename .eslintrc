@@ -1,0 +1,38 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "react", "import"
+  ],
+  "parser": "babel-eslint",
+  "rules": {
+    "indent": [2, 2, {"SwitchCase": 0}],
+    "no-console": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-confusing-arrow": ["error", {"allowParens": false}]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  },
+  "settings": {
+    "import/parser": "babel-eslint",
+    "import/resolve": {
+      "moduleDirectory": ["node_modules", "src"]
+    },
+    "ecmaFeatures": {
+      "classes": true,
+      "jsx": true
+    }
+  },
+  "globals": {
+    "__DEVELOPMENT__": true,
+    "__CLIENT__": true,
+    "__SERVER__": true,
+    "__DISABLE_SSR__": true,
+    "__DEVTOOLS__": true,
+    "fetch": true,
+    "socket": true,
+    "webpackIsomorphicTools": true
+  }
+}
