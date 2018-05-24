@@ -46,7 +46,7 @@ const makeDebounced = (WrappedComponent) => {
           {...{
             ...debouncedProps,
             value,
-            onChange: this.setState({ value }, () =>
+            onChange: (e, { value }) => this.setState({ value }, () =>
               this.sendExternalChange(e, value)),
           }}
         />

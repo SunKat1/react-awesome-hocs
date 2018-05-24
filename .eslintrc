@@ -1,38 +1,25 @@
 {
-  "extends": "airbnb",
-  "plugins": [
-    "react", "import"
-  ],
   "parser": "babel-eslint",
-  "rules": {
-    "indent": [2, 2, {"SwitchCase": 0}],
-    "no-console": 0,
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "no-confusing-arrow": ["error", {"allowParens": false}]
-  },
+  "extends": [
+    "standard",
+    "standard-react"
+  ],
   "env": {
-    "browser": true,
-    "node": true,
-    "jasmine": true
+    "es6": true
   },
-  "settings": {
-    "import/parser": "babel-eslint",
-    "import/resolve": {
-      "moduleDirectory": ["node_modules", "src"]
-    },
-    "ecmaFeatures": {
-      "classes": true,
-      "jsx": true
-    }
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
   },
-  "globals": {
-    "__DEVELOPMENT__": true,
-    "__CLIENT__": true,
-    "__SERVER__": true,
-    "__DISABLE_SSR__": true,
-    "__DEVTOOLS__": true,
-    "fetch": true,
-    "socket": true,
-    "webpackIsomorphicTools": true
+  "rules": {
+    // don't force es6 functions to include space before paren
+    "space-before-function-paren": 0,
+    // allow specifying true explicitly for boolean props
+    "react/jsx-boolean-value": 0,
+    // allow imports mixed with non-import statements at top of file
+    "import/first": 0
   }
 }
