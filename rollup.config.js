@@ -19,6 +19,11 @@ export default {
       format: 'es',
     },
   ],
+  external: [
+    'react',
+    'prop-types',
+    'lodash',
+  ],
   plugins: [
     external(),
     postcss({

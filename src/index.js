@@ -1,9 +1,1 @@
-import makeDebounced from 'fields/makeDebounced'
-
-export { makeDebounced }
-
-export default {
-  fields: {
-    makeDebounced,
-  }
-}
+export { default as makeDebounced } from './fields/makeDebounced'
