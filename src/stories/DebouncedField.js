@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Form } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
-import makeDebounced from "../src/fields/makeDebounced";
+import { makeDebounced } from "../fields";
 
 class DebouncedComponent extends Component {
   static getDerivedStateFromProps({ value }, { externalValue }) {

@@ -1,6 +1,6 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
-import external from 'rollup-plugin-peer-deps-external';
+// import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 import resolve from 'rollup-plugin-node-resolve';
 import url from 'rollup-plugin-url';
@@ -25,13 +25,15 @@ export default {
     'lodash',
   ],
   plugins: [
-    external(),
+    // external(),
     postcss({
       modules: true,
     }),
     url(),
     babel({
       exclude: 'node_modules/**',
+      plugins: ['external-helpers'],
+      externalHelpers: true,
     }),
     resolve(),
     commonjs(),
