@@ -7,13 +7,14 @@ const makeDebounced = (WrappedComponent) => {
   class Wrapper extends Component {
     static propTypes = {
       delay: PropTypes.number,
-      onChange: PropTypes.func.isRequired,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        .isRequired,
+      onChange: PropTypes.func,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     };
 
     static defaultProps = {
       delay: 1500,
+      onChange: () => {},
+      value: null,
     };
 
     constructor(props) {
