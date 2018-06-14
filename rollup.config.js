@@ -32,8 +32,8 @@ export default {
     url(),
     babel({
       exclude: 'node_modules/**',
-      plugins: ['external-helpers'],
-      externalHelpers: true,
+      // plugins: ['external-helpers'],
+      // externalHelpers: true,
     }),
     resolve(),
     commonjs(),
