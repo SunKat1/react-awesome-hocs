@@ -23,6 +23,7 @@ export default {
     'react',
     'prop-types',
     'lodash',
+    'redux',
   ],
   plugins: [
     // external(),
