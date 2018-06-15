@@ -1,61 +1,81 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import { debounce, omit } from 'lodash';
+import { debounce, omit } from "lodash";
 
-const makeDebounced = (WrappedComponent) => {
-  class Wrapper extends Component {
+const makeDebounced = WrappedComponent =>
+  class extends Component {
     static propTypes = {
       delay: PropTypes.number,
-      onChange: PropTypes.func,
+      onChange: PropTypes.func.isRequired,
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      unsavedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     };
 
     static defaultProps = {
       delay: 1500,
-      onChange: () => {},
       value: null,
+      unsavedValue: null
     };
+
+    static displayName = `WithDebounce(${WrappedComponent.displayName ||
+      WrappedComponent.name ||
+      "UnknownComponent"})`;
 
     constructor(props) {
       super(props);
 
       this.state = {
-        value: null,
-        debouncedProps: omit(props, ['onChange', 'value']),
+        value: props.value,
+        unsavedValue: props.value,
+        debouncedProps: omit(props, ["onChange", "value"])
       };
+      this.handleUpdate = this.handleUpdate.bind(this);
       this.sendExternalChange = debounce(props.onChange, props.delay);
     }
 
-    static getDerivedStateFromProps = ({ delay, value, ...props }) => ({
-      value,
-      debouncedProps: omit(props, ['onChange', 'value']),
-    });
+    static getDerivedStateFromProps = ({ delay, value, ...props }, state) => {
+      return ({
+        value: state.value,
+        debouncedProps: omit(props, ["onChange", "value", "unsavedValue"])
+      });
+    }
 
-    componentDidUpdate(prevProps) {
-      if (prevProps.value !== this.props.value) {
+    componentDidUpdate(prevProps, prevState) {
+      if (this.state.unsavedValue === this.props.value) {
         this.sendExternalChange.cancel();
+      } else if (this.state.value !== this.props.value &&
+        prevProps.value !== this.props.value) {
+        this.setState({
+            unsavedValue: this.props.value
+          }, this.sendExternalChange.cancel
+        )
       }
+    }
+
+    handleUpdate(e, addValue = {}) {
+      const unvalidatedValue = addValue.value ||
+        e.target.value ||
+        this.state.unsavedValue;
+
+      const sendEvent = () => {
+        this.sendExternalChange(e, this.state.unsavedValue);
+      }
+      this.setState({ unsavedValue: unvalidatedValue }, sendEvent);
     }
 
     render() {
       const {
-        state: { value, debouncedProps },
+        state: { unsavedValue, debouncedProps }
       } = this;
       return (
         <WrappedComponent
-          {...{
-            ...debouncedProps,
-            value,
-            onChange: (e, { value }) => this.setState({ value }, () =>
-              this.sendExternalChange(e, value)),
-          }}
+          {...debouncedProps}
+          value={unsavedValue}
+          onChange={this.handleUpdate}
         />
       );
     }
-  }
-
-  return Wrapper;
-};
+  };
 
 export default makeDebounced;

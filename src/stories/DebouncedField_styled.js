@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+import styled from 'styled-components';
 import { makeDebounced } from "../fields";
 
-const DebouncedField = makeDebounced(p => <input {...p} />);
-DebouncedField.displayName = "CustomDebouncedField";
+const MyInput = styled.input`
+  background: #c40;
+`
+
+const DebouncedField = makeDebounced(p => <MyInput {...p} />);
+DebouncedField.displayName = "StyledDebouncedField";
 
 export default class extends Component {
   static displayName = `Story(${DebouncedField.displayName || "Component"})`;

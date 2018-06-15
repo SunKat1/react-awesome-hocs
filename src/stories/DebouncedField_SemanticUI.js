@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+import "semantic-ui-css/semantic.min.css";
+import { Form, Button } from "semantic-ui-react";
+
 import { makeDebounced } from "../fields";
 
-const DebouncedField = makeDebounced(p => <input {...p} />);
-DebouncedField.displayName = "CustomDebouncedField";
+const DebouncedField = makeDebounced(Form.Input);
+DebouncedField.displayName = "SemanticInputDebouncedField";
 
 export default class extends Component {
   static displayName = `Story(${DebouncedField.displayName || "Component"})`;
@@ -33,13 +36,14 @@ export default class extends Component {
           }}
           type="text"
         />
-        <button
+        <Button
+          primary
           onClick={() => {
             this.setState({ externalValue: "default" }, this.props.onChange);
           }}
         >
           Set default
-        </button>
+        </Button>
       </div>
     );
   }
