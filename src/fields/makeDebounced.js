@@ -26,8 +26,8 @@ const makeDebounced = WrappedComponent =>
       super(props);
 
       this.state = {
-        value: props.value || '',
-        unsavedValue: props.value || '',
+        value: props.value || "",
+        unsavedValue: props.value || "",
         debouncedProps: omit(props, ["onChange", "value"])
       };
       this.handleUpdate = this.handleUpdate.bind(this);
@@ -35,31 +35,34 @@ const makeDebounced = WrappedComponent =>
     }
 
     static getDerivedStateFromProps = ({ delay, value, ...props }, state) => {
-      return ({
-        value: state.value || '',
+      return {
+        value: state.value || "",
         debouncedProps: omit(props, ["onChange", "value", "unsavedValue"])
-      });
-    }
+      };
+    };
 
     componentDidUpdate(prevProps, prevState) {
       if (this.state.unsavedValue === this.props.value) {
         this.sendExternalChange.cancel();
-      } else if (this.state.value !== this.props.value &&
-        prevProps.value !== this.props.value) {
-        this.setState({
-            unsavedValue: this.props.value || ''
-          }, this.sendExternalChange.cancel
-        )
+      } else if (
+        this.state.value !== this.props.value &&
+        prevProps.value !== this.props.value
+      ) {
+        this.setState(
+          {
+            unsavedValue: this.props.value || ""
+          },
+          this.sendExternalChange.cancel
+        );
       }
     }
 
     handleUpdate(e, addValue = {}) {
-      const unvalidatedValue = addValue.value ||
-        e.target.value || '';
+      const unvalidatedValue = addValue.value || e.target.value || "";
 
       const sendEvent = () => {
         this.sendExternalChange(e, this.state.unsavedValue);
-      }
+      };
       this.setState({ unsavedValue: unvalidatedValue }, sendEvent);
     }
 
