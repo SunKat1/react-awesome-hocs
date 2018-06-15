@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import "semantic-ui-css/semantic.min.css";
 import { Form, Button } from "semantic-ui-react";
 
 import { makeDebounced } from "../fields";
