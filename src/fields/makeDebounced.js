@@ -26,8 +26,8 @@ const makeDebounced = WrappedComponent =>
       super(props);
 
       this.state = {
-        value: props.value,
-        unsavedValue: props.value,
+        value: props.value || '',
+        unsavedValue: props.value || '',
         debouncedProps: omit(props, ["onChange", "value"])
       };
       this.handleUpdate = this.handleUpdate.bind(this);
@@ -36,7 +36,7 @@ const makeDebounced = WrappedComponent =>
 
     static getDerivedStateFromProps = ({ delay, value, ...props }, state) => {
       return ({
-        value: state.value,
+        value: state.value || '',
         debouncedProps: omit(props, ["onChange", "value", "unsavedValue"])
       });
     }
@@ -47,7 +47,7 @@ const makeDebounced = WrappedComponent =>
       } else if (this.state.value !== this.props.value &&
         prevProps.value !== this.props.value) {
         this.setState({
-            unsavedValue: this.props.value
+            unsavedValue: this.props.value || ''
           }, this.sendExternalChange.cancel
         )
       }
@@ -55,8 +55,7 @@ const makeDebounced = WrappedComponent =>
 
     handleUpdate(e, addValue = {}) {
       const unvalidatedValue = addValue.value ||
-        e.target.value ||
-        this.state.unsavedValue;
+        e.target.value || '';
 
       const sendEvent = () => {
         this.sendExternalChange(e, this.state.unsavedValue);
