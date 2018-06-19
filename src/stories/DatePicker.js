@@ -1,47 +1,54 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+import { compose } from 'redux';
 import { makeDebounced, makeDateField } from "../fields";
 
-const DebouncedField = makeDebounced(p => <input {...p} />);
+import styled from 'styled-components';
 
+const Input = styled.input`
+  border-color: ${({errorMsg}) => {
+    if (errorMsg) { return 'red' } else { return 'blue' }
+  }}
+`;
+
+const DateField = makeDateField(p => <Input {...p} />)
 
 export default class extends Component {
-  static displayName = `Story(${DebouncedField.displayName || "Component"})`;
-  static getDerivedStateFromProps({ value }, { externalValue }) {
-    return { externalValue: externalValue };
+  static displayName = `Story(DatePicker)`;
+
+  static propTypes = {
+    value: PropTypes.number,
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      externalValue: `${props.value}`
+      externalValue: props.value
     };
   }
 
   render() {
     const { externalValue } = this.state;
 
+    const dateUpdater = (e, v) => {
+      this.setState({ externalValue: v }, this.props.onChange);
+    };
+
+    const setCurrentDate = () => {
+      this.setState(
+        {
+          externalValue: Date.now()
+        },
+        this.props.onChange
+      );
+    };
+
     return (
       <div>
         <h1>Current value: {externalValue || '"Not found"'}</h1>
-        <DebouncedField
-          value={externalValue}
-          onChange={(e, v) => {
-            this.setState({ externalValue: v }, this.props.onChange);
-          }}
-          type="text"
-        />
-        <button
-          onClick={() => {
-            this.setState({
-              externalValue: Date.now().toJSON()
-            }, this.props.onChange);
-          }}
-        >
-          Set current
-        </button>
+        <DateField value={externalValue} onChange={dateUpdater} type="text" />
+        <button onClick={setCurrentDate}>Set current</button>
       </div>
     );
   }

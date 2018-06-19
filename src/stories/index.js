@@ -32,7 +32,7 @@ storiesOf("DebouncedChanger", module)
 storiesOf("DatePicker", module)
   .add("as basic field", () => (
     <DateFieldBasicComponent
-      value={"2012-04-23T18:25:43.511Z"}
+      value={Date.now()}
       onChange={action("new date")}
     />
   ))
