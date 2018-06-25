@@ -49,7 +49,8 @@ export default WrappedComponent =>
     }
 
     handleUpdate(e, exValue) {
-      const newValue = e.target.value || exValue || "";
+      e.persist();
+      const newValue = e.target && e.target.value || exValue || "";
 
       const checker = () => {
         const { unsavedValue } = this.state;

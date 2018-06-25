@@ -58,7 +58,9 @@ const makeDebounced = WrappedComponent =>
     }
 
     handleUpdate(e, addValue = {}) {
-      const unvalidatedValue = addValue.value || e.target.value || "";
+      e.persist();
+      const unvalidatedValue =
+        addValue.value || (e.target && e.target.value) || "";
 
       const sendEvent = () => {
         this.sendExternalChange(e, this.state.unsavedValue);
