@@ -24,6 +24,7 @@ export default {
     'prop-types',
     'lodash',
     'redux',
+    'styled-components',
   ],
   plugins: [
     // external(),
