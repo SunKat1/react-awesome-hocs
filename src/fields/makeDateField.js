@@ -64,7 +64,7 @@ export default WrappedComponent =>
           const val = Date.UTC(...repairDate);
 
           this.props.onChange(e, val);
-        } else if (partMatch.test(unsavedValue)) {
+        } else if (partMatch.test(unsavedValue) && unsavedValue.length < 11) {
           this.setState({
             errorMsg: null
           });
