@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { makeDebounced, makeDateField } from "../fields";
 
 import styled from 'styled-components';
+import wrapErrorForField from "../fields/wrapErrorForField";
 
 const Input = styled.input`
   border-color: ${({errorMsg}) => {
@@ -11,7 +12,9 @@ const Input = styled.input`
   }}
 `;
 
-const DateField = makeDateField(p => <Input {...p} />)
+const enhance = compose(makeDateField, wrapErrorForField)
+
+const DateField = enhance(p => <Input {...p} />)
 
 export default class extends Component {
   static displayName = `Story(DatePicker)`;
