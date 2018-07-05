@@ -23,13 +23,17 @@ export default WrappedComponent =>
     };
 
     static getDerivedStateFromProps(props) {
-      return { value: new Date(props.value) };
+      const _d = new Date();
+      _d.setDate(props.value)
+      return { value: _d };
     }
 
     constructor(props) {
       super(props);
-      const fmtDate = new Date(props.value);
+      const fmtDate = new Date();
 
+      fmtDate.setDate(props.value);
+      
       this.state = {
         value: fmtDate,
         unsavedValue: `${getFmtDate(fmtDate) || ""}`
@@ -38,12 +42,14 @@ export default WrappedComponent =>
     }
 
     componentDidUpdate(prevProps, prevState) {
+      const _d = new Date()
+      _d.setDate(this.props.value)
       if (
-        this.state.value !== new Date(this.props.value) &&
+        this.state.value !== this.props.value) &&
         prevProps.value !== this.props.value
       ) {
         this.setState({
-          unsavedValue: getFmtDate(new Date(this.props.value))
+          unsavedValue: getFmtDate(_d)
         });
       }
     }
