@@ -10,7 +10,9 @@ const sumMatrix = (r, a) =>
   r.map((b, i) => parseInt(`${a[i]}`) + parseInt(`${b}`));
 
 const getFmtDate = d =>
-  `${("0" + (d.getDate() + 1)).slice(-2)}.${("0" + (d.getMonth() + 1)).slice(-2)}.${d.getFullYear()}`;
+  `${("0" + (d.getDate() + 1)).slice(-2)}.${("0" + (d.getMonth() + 1)).slice(
+    -2
+  )}.${d.getFullYear()}`;
 
 export default WrappedComponent =>
   class extends Component {
@@ -24,7 +26,7 @@ export default WrappedComponent =>
 
     static getDerivedStateFromProps(props) {
       const _d = new Date();
-      _d.setDate(props.value)
+      _d.setTime(props.value);
       return { value: _d };
     }
 
@@ -32,8 +34,8 @@ export default WrappedComponent =>
       super(props);
       const fmtDate = new Date();
 
-      fmtDate.setDate(props.value);
-      
+      fmtDate.setTime(props.value);
+
       this.state = {
         value: fmtDate,
         unsavedValue: `${getFmtDate(fmtDate) || ""}`
@@ -42,10 +44,10 @@ export default WrappedComponent =>
     }
 
     componentDidUpdate(prevProps, prevState) {
-      const _d = new Date()
-      _d.setDate(this.props.value)
+      const _d = new Date();
+      _d.setTime(this.props.value);
       if (
-        this.state.value !== this.props.value) &&
+        this.state.value !== this.props.value &&
         prevProps.value !== this.props.value
       ) {
         this.setState({
@@ -56,7 +58,7 @@ export default WrappedComponent =>
 
     handleUpdate(e, exValue) {
       e.persist();
-      const newValue = e.target && e.target.value || exValue || "";
+      const newValue = (e.target && e.target.value) || exValue || "";
 
       const checker = () => {
         const { unsavedValue } = this.state;
