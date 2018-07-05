@@ -18,7 +18,7 @@ export default WrappedComponent =>
       "UnknownComponent"})`;
 
     static propTypes = {
-      children: PropTypes.node.isRequired,
+      children: PropTypes.node,
       value: PropTypes.number
     };
 
